@@ -1,0 +1,11 @@
+rootProject.name = 'finance-microservices'
+include 'usersvc'
+include 'transactionsvc'
+include 'budgetsvc'
+include 'categorysvc'
+include 'incomesvc'
+include 'prioritysvc'
+include 'recurringtxsvc'
+include 'savingsgoalsvc'
+include 'transactiontagsvc'
+
