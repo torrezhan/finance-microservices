@@ -39,7 +39,6 @@ public class UserDetailsServiceImpl implements UserService {
     @Override
     public Optional<UserEntity> updateUser(Long id, UserEntity updatedUser) {
         return userRepository.findById(id).map(existingUser -> {
-            existingUser.setName(updatedUser.getName());
             existingUser.setEmail(updatedUser.getEmail());
             existingUser.setPassword(updatedUser.getPassword());
             return userRepository.save(existingUser);
