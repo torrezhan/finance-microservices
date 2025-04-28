@@ -8,4 +8,8 @@ include 'prioritysvc'
 include 'recurringtxsvc'
 include 'savingsgoalsvc'
 include 'transactiontagsvc'
+include 'eureka-server'
+include 'api-gateway'
+include 'auth-service'
+include 'common-config'
 

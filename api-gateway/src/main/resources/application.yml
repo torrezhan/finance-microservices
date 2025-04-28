@@ -1,0 +1,95 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - StripPrefix=2
+        - id: transaction-service
+          uri: lb://transaction-service
+          predicates:
+            - Path=/api/transactions/**
+          filters:
+            - StripPrefix=2
+        - id: category-service
+          uri: lb://category-service
+          predicates:
+            - Path=/api/categories/**
+          filters:
+            - StripPrefix=2
+        - id: budget-service
+          uri: lb://budget-service
+          predicates:
+            - Path=/api/budgets/**
+          filters:
+            - StripPrefix=2
+        - id: income-service
+          uri: lb://income-service
+          predicates:
+            - Path=/api/incomes/**
+          filters:
+            - StripPrefix=2
+        - id: savings-goal-service
+          uri: lb://savings-goal-service
+          predicates:
+            - Path=/api/savings-goals/**
+          filters:
+            - StripPrefix=2
+        - id: priority-service
+          uri: lb://priority-service
+          predicates:
+            - Path=/api/priorities/**
+          filters:
+            - StripPrefix=2
+        - id: recurring-transaction-service
+          uri: lb://recurring-transaction-service
+          predicates:
+            - Path=/api/recurring-transactions/**
+          filters:
+            - StripPrefix=2
+        - id: transaction-tag-service
+          uri: lb://transaction-tag-service
+          predicates:
+            - Path=/api/transaction-tags/**
+          filters:
+            - StripPrefix=2
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=2
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  security:
+    oauth2:
+      client:
+        registration:
+          finance-client:
+            provider: auth-service
+            client-id: finance-client
+            client-secret: ${CLIENT_SECRET:secret}
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8082/login/oauth2/code/finance-client
+            scope: openid,profile,email
+        provider:
+          auth-service:
+            issuer-uri: http://localhost:8092
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}} 
