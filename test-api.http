@@ -2,6 +2,8 @@
 @baseUrl = http://localhost:8082
 @contentType = application/json
 
+### Auth Service Endpoints
+
 ### Register a new user
 POST {{baseUrl}}/api/auth/register
 Content-Type: {{contentType}}
@@ -24,115 +26,146 @@ Content-Type: {{contentType}}
   "password": "Test123!@#"
 }
 
-### Refresh token
-POST {{baseUrl}}/api/auth/refresh
+### Budget Service Endpoints
+
+### Create a new budget
+POST {{baseUrl}}/api/budgets
 Content-Type: {{contentType}}
-Authorization: Bearer {{refreshToken}}
-
-### Logout
-POST {{baseUrl}}/api/auth/logout
-Authorization: Bearer {{accessToken}}
-
-### Get current user profile
-GET {{baseUrl}}/api/auth/profile
-Authorization: Bearer {{accessToken}}
-
-### Update user profile
-PUT {{baseUrl}}/api/auth/profile
-Content-Type: {{contentType}}
-Authorization: Bearer {{accessToken}}
-
-{
-  "firstName": "Updated",
-  "lastName": "Name",
-  "email": "updated@example.com"
-}
-
-### Change password
-PUT {{baseUrl}}/api/auth/change-password
-Content-Type: {{contentType}}
-Authorization: Bearer {{accessToken}}
-
-{
-  "currentPassword": "Test123!@#",
-  "newPassword": "NewTest123!@#"
-}
-
-### Test rate limiting (try multiple times)
-POST {{baseUrl}}/api/auth/login
-Content-Type: {{contentType}}
-
-{
-  "username": "testuser",
-  "password": "wrongpassword"
-}
-
-### Test token blacklist (after logout)
-GET {{baseUrl}}/api/auth/profile
-Authorization: Bearer {{blacklistedToken}}
-
-### Test invalid token
-GET {{baseUrl}}/api/auth/profile
-Authorization: Bearer invalid.token.here
-
-### Test missing token
-GET {{baseUrl}}/api/auth/profile
-
-### Test expired token
-GET {{baseUrl}}/api/auth/profile
-Authorization: Bearer {{expiredToken}}
-
-### Test role-based access
-GET {{baseUrl}}/api/auth/admin
-Authorization: Bearer {{accessToken}}
-
-### Test refresh token with invalid token
-POST {{baseUrl}}/api/auth/refresh
-Content-Type: {{contentType}}
-Authorization: Bearer {{invalidRefreshToken}}
-
-### Test refresh token with access token (should fail)
-POST {{baseUrl}}/api/auth/refresh
-Content-Type: {{contentType}}
-Authorization: Bearer {{accessToken}}
-
-### Get user profile (replace {token} with actual JWT token)
-GET http://localhost:8081/api/users/profile
-Authorization: Bearer {token}
-
-### Create a budget (replace {token} with actual JWT token)
-POST http://localhost:8082/api/budgets
-Authorization: Bearer {token}
-Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "name": "Monthly Budget",
   "amount": 5000.00,
   "startDate": "2024-04-01",
-  "endDate": "2024-04-30"
+  "endDate": "2024-04-30",
+  "categories": ["FOOD", "TRANSPORTATION", "ENTERTAINMENT"]
 }
 
-### Add income (replace {token} with actual JWT token)
-POST http://localhost:8083/api/incomes
-Authorization: Bearer {token}
-Content-Type: application/json
+### Get all budgets
+GET {{baseUrl}}/api/budgets
+Authorization: Bearer {{token}}
+
+### Category Service Endpoints
+
+### Create a new category
+POST {{baseUrl}}/api/categories
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Groceries",
+  "type": "EXPENSE",
+  "color": "#FF5733"
+}
+
+### Get all categories
+GET {{baseUrl}}/api/categories
+Authorization: Bearer {{token}}
+
+### Transaction Service Endpoints
+
+### Create a new transaction
+POST {{baseUrl}}/api/transactions
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "amount": 150.00,
+  "description": "Grocery shopping",
+  "categoryId": 1,
+  "date": "2024-04-28",
+  "type": "EXPENSE"
+}
+
+### Get all transactions
+GET {{baseUrl}}/api/transactions
+Authorization: Bearer {{token}}
+
+### Income Service Endpoints
+
+### Add new income
+POST {{baseUrl}}/api/incomes
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 {
   "amount": 3000.00,
-  "description": "Salary",
-  "date": "2024-04-27",
-  "category": "SALARY"
+  "description": "Monthly salary",
+  "date": "2024-04-28",
+  "source": "EMPLOYMENT"
 }
 
-### Create a transaction (replace {token} with actual JWT token)
-POST http://localhost:8087/api/transactions
-Authorization: Bearer {token}
-Content-Type: application/json
+### Get all incomes
+GET {{baseUrl}}/api/incomes
+Authorization: Bearer {{token}}
+
+### Savings Goals Service Endpoints
+
+### Create a new savings goal
+POST {{baseUrl}}/api/savings-goals
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "New Car",
+  "targetAmount": 20000.00,
+  "currentAmount": 5000.00,
+  "targetDate": "2024-12-31"
+}
+
+### Get all savings goals
+GET {{baseUrl}}/api/savings-goals
+Authorization: Bearer {{token}}
+
+### Priority Service Endpoints
+
+### Create a new priority
+POST {{baseUrl}}/api/priorities
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "High",
+  "color": "#FF0000",
+  "level": 1
+}
+
+### Get all priorities
+GET {{baseUrl}}/api/priorities
+Authorization: Bearer {{token}}
+
+### Recurring Transaction Service Endpoints
+
+### Create a new recurring transaction
+POST {{baseUrl}}/api/recurring-transactions
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 {
   "amount": 100.00,
-  "description": "Grocery shopping",
-  "date": "2024-04-27",
-  "category": "FOOD",
-  "type": "EXPENSE"
-} 
+  "description": "Netflix Subscription",
+  "categoryId": 1,
+  "frequency": "MONTHLY",
+  "startDate": "2024-04-01",
+  "endDate": "2024-12-31"
+}
+
+### Get all recurring transactions
+GET {{baseUrl}}/api/recurring-transactions
+Authorization: Bearer {{token}}
+
+### Transaction Tag Service Endpoints
+
+### Create a new tag
+POST {{baseUrl}}/api/tags
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "name": "Essential",
+  "color": "#00FF00"
+}
+
+### Get all tags
+GET {{baseUrl}}/api/tags
+Authorization: Bearer {{token}}

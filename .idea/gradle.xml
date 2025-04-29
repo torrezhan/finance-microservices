@@ -21,7 +21,6 @@
             <option value="$PROJECT_DIR$/savingsgoalsvc" />
             <option value="$PROJECT_DIR$/transactionsvc" />
             <option value="$PROJECT_DIR$/transactiontagsvc" />
-            <option value="$PROJECT_DIR$/usersvc" />
           </set>
         </option>
       </GradleProjectSettings>

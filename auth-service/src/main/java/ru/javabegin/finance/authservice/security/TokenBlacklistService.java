@@ -19,7 +19,7 @@ public class TokenBlacklistService {
     }
 
     public void blacklistToken(String token) {
-        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        String username = jwtTokenProvider.getUsernameFromToken(token);
         String key = "blacklist:" + username + ":" + token;
         
         // Store the token in Redis with expiration time
@@ -30,7 +30,7 @@ public class TokenBlacklistService {
     }
 
     public boolean isTokenBlacklisted(String token) {
-        String username = jwtTokenProvider.getUsernameFromJWT(token);
+        String username = jwtTokenProvider.getUsernameFromToken(token);
         String key = "blacklist:" + username + ":" + token;
         
         return Boolean.TRUE.equals(redisTemplate.hasKey(key));

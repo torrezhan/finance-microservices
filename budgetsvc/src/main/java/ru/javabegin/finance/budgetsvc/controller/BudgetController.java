@@ -25,7 +25,7 @@ public class BudgetController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<BudgetDTO> createBudget(@RequestBody BudgetDTO budgetDTO) {
         var budget = BudgetMapper.fromDTO(budgetDTO);
         var savedBudget = budgetService.createBudget(budget);

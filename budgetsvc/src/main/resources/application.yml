@@ -31,7 +31,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://admin:admin@localhost:8761/eureka/
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
@@ -47,3 +47,9 @@ management:
   info:
     env:
       enabled: true
+
+app:
+  jwt:
+    secret: mySuperSecretJwtKey1234567890123456
+    expiration: 86400000 # 24 hours in milliseconds
+    refresh-expiration: 604800000 # 7 days in milliseconds
