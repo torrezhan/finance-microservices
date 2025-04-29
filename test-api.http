@@ -1,11 +1,12 @@
-### Variables
-@baseUrl = http://localhost:8082
+### Environment Variables
+@baseUrl = http://localhost
 @contentType = application/json
 
 ### Auth Service Endpoints
+@authPort = 8080
 
 ### Register a new user
-POST {{baseUrl}}/api/auth/register
+POST {{baseUrl}}:{{authPort}}/api/auth/register
 Content-Type: {{contentType}}
 
 {
@@ -18,7 +19,7 @@ Content-Type: {{contentType}}
 }
 
 ### Login with registered user
-POST {{baseUrl}}/api/auth/login
+POST {{baseUrl}}:{{authPort}}/api/auth/login
 Content-Type: {{contentType}}
 
 {
@@ -27,145 +28,158 @@ Content-Type: {{contentType}}
 }
 
 ### Budget Service Endpoints
+@budgetPort = 8080
 
 ### Create a new budget
-POST {{baseUrl}}/api/budgets
+POST {{baseUrl}}:{{budgetPort}}/api/budgets/create
 Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc0NTk0ODc1NCwiZXhwIjoxNzQ2MDM1MTU0fQ.HG55FUZw5bo8Zxq6OPAtdwxQh_s59Hmwdc9czmxisO-7H0uNlU65rghjFYmfAYunYnikw3XJsaEUq8CezSLoiQ
 
 {
   "name": "Monthly Budget",
   "amount": 5000.00,
-  "startDate": "2024-04-01",
-  "endDate": "2024-04-30",
-  "categories": ["FOOD", "TRANSPORTATION", "ENTERTAINMENT"]
+  "monthlyLimit": 5000.00,
+  "userId": 1
 }
 
 ### Get all budgets
-GET {{baseUrl}}/api/budgets
-Authorization: Bearer {{token}}
+GET {{baseUrl}}:{{budgetPort}}/api/budgets
+Authorization: Bearer {}
 
 ### Category Service Endpoints
+@categoryPort = 8084
 
 ### Create a new category
-POST {{baseUrl}}/api/categories
+POST {{baseUrl}}:{{categoryPort}}/api/categories
 Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {}
 
 {
   "name": "Groceries",
   "type": "EXPENSE",
-  "color": "#FF5733"
+  "color": "#FF5733",
+  "userId": 1
 }
 
 ### Get all categories
-GET {{baseUrl}}/api/categories
-Authorization: Bearer {{token}}
+GET {{baseUrl}}:{{categoryPort}}/api/categories
+Authorization: Bearer {}
 
 ### Transaction Service Endpoints
+@transactionPort = 8088
 
 ### Create a new transaction
-POST {{baseUrl}}/api/transactions
+POST {{baseUrl}}:{{transactionPort}}/api/transactions
 Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {}
 
 {
   "amount": 150.00,
   "description": "Grocery shopping",
   "categoryId": 1,
   "date": "2024-04-28",
-  "type": "EXPENSE"
+  "type": "EXPENSE",
+  "userId": 1,
+  "currency": "USD",
+  "status": "COMPLETED"
 }
 
 ### Get all transactions
-GET {{baseUrl}}/api/transactions
-Authorization: Bearer {{token}}
+GET {{baseUrl}}:{{transactionPort}}/api/transactions
+Authorization: Bearer {}
 
 ### Income Service Endpoints
+@incomePort = 8086
 
 ### Add new income
-POST {{baseUrl}}/api/incomes
+POST {{baseUrl}}:{{incomePort}}/api/incomes
 Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {}
 
 {
-  "amount": 3000.00,
-  "description": "Monthly salary",
+  "source": "Salary",
+  "amount": 5000.00,
   "date": "2024-04-28",
-  "source": "EMPLOYMENT"
+  "description": "Monthly salary",
+  "userId": 1
 }
 
 ### Get all incomes
-GET {{baseUrl}}/api/incomes
-Authorization: Bearer {{token}}
+GET {{baseUrl}}:{{incomePort}}/api/incomes
+Authorization: Bearer {}
 
 ### Savings Goals Service Endpoints
+@savingsPort = 8087
 
 ### Create a new savings goal
-POST {{baseUrl}}/api/savings-goals
+POST {{baseUrl}}:{{savingsPort}}/api/savings-goals
 Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {}
 
 {
   "name": "New Car",
-  "targetAmount": 20000.00,
+  "targetAmount": 25000.00,
   "currentAmount": 5000.00,
-  "targetDate": "2024-12-31"
+  "currency": "USD",
+  "userId": 1
 }
 
 ### Get all savings goals
-GET {{baseUrl}}/api/savings-goals
-Authorization: Bearer {{token}}
+GET {{baseUrl}}:{{savingsPort}}/api/savings-goals
+Authorization: Bearer {}
 
 ### Priority Service Endpoints
+@priorityPort = 8089
 
 ### Create a new priority
-POST {{baseUrl}}/api/priorities
+POST {{baseUrl}}:{{priorityPort}}/api/priorities
 Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {}
 
 {
-  "name": "High",
+  "name": "High Priority",
   "color": "#FF0000",
-  "level": 1
+  "userId": 1
 }
 
 ### Get all priorities
-GET {{baseUrl}}/api/priorities
-Authorization: Bearer {{token}}
+GET {{baseUrl}}:{{priorityPort}}/api/priorities
+Authorization: Bearer {}
 
 ### Recurring Transaction Service Endpoints
+@recurringPort = 8090
 
 ### Create a new recurring transaction
-POST {{baseUrl}}/api/recurring-transactions
+POST {{baseUrl}}:{{recurringPort}}/api/recurring-transactions
 Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {}
 
 {
-  "amount": 100.00,
-  "description": "Netflix Subscription",
-  "categoryId": 1,
+  "name": "Netflix Subscription",
+  "amount": 15.99,
   "frequency": "MONTHLY",
   "startDate": "2024-04-01",
-  "endDate": "2024-12-31"
+  "userId": 1
 }
 
 ### Get all recurring transactions
-GET {{baseUrl}}/api/recurring-transactions
-Authorization: Bearer {{token}}
+GET {{baseUrl}}:{{recurringPort}}/api/recurring-transactions
+Authorization: Bearer {}
 
 ### Transaction Tag Service Endpoints
+@tagPort = 8091
 
-### Create a new tag
-POST {{baseUrl}}/api/tags
+### Create a new transaction tag
+POST {{baseUrl}}:{{tagPort}}/api/tags
 Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {}
 
 {
   "name": "Essential",
-  "color": "#00FF00"
+  "description": "Essential expenses",
+  "userId": 1
 }
 
-### Get all tags
-GET {{baseUrl}}/api/tags
-Authorization: Bearer {{token}}
+### Get all transaction tags
+GET {{baseUrl}}:{{tagPort}}/api/tags
+Authorization: Bearer {}

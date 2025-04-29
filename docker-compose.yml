@@ -1,0 +1,166 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - finance-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8761
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+    networks:
+      - finance-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: auth-service/Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-server
+    networks:
+      - finance-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8082
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+  transactionsvc:
+    build:
+      context: .
+      dockerfile: transactionsvc/Dockerfile
+    ports:
+      - "8087:8087"
+    depends_on:
+      - eureka-server
+    networks:
+      - finance-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8087
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+  transactiontagsvc:
+    build:
+      context: .
+      dockerfile: transactiontagsvc/Dockerfile
+    ports:
+      - "8091:8091"
+    depends_on:
+      - eureka-server
+    networks:
+      - finance-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8091
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+  recurringtxsvc:
+    build:
+      context: .
+      dockerfile: recurringtxsvc/Dockerfile
+    ports:
+      - "8089:8089"
+    depends_on:
+      - eureka-server
+    networks:
+      - finance-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8089
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+  savingsgoalsvc:
+    build:
+      context: .
+      dockerfile: savingsgoalsvc/Dockerfile
+    ports:
+      - "8090:8090"
+    depends_on:
+      - eureka-server
+    networks:
+      - finance-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8090
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+  prioritysvc:
+    build:
+      context: .
+      dockerfile: prioritysvc/Dockerfile
+    ports:
+      - "8086:8086"
+    depends_on:
+      - eureka-server
+    networks:
+      - finance-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8086
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+  budgetsvc:
+    build:
+      context: .
+      dockerfile: budgetsvc/Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      - eureka-server
+    networks:
+      - finance-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8085
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+  categorysvc:
+    build:
+      context: .
+      dockerfile: categorysvc/Dockerfile
+    ports:
+      - "8084:8084"
+    depends_on:
+      - eureka-server
+    networks:
+      - finance-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8084
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+  incomesvc:
+    build:
+      context: .
+      dockerfile: incomesvc/Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-server
+    networks:
+      - finance-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8083
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+networks:
+  finance-network:
+    driver: bridge

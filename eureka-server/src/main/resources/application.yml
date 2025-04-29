@@ -7,7 +7,7 @@ spring:
   security:
     user:
       name: admin
-      password: ${EUREKA_SERVER_PASSWORD:admin}
+      password: admin
 
 eureka:
   client:
